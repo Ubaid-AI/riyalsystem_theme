@@ -1,0 +1,214 @@
+// Hierarchical workspace sidebar — expanded mode only.
+// Collapsed mode (body.hide-main-menu) is handled by the original Vue icon rail + _side-menu.scss.
+
+:root {
+	--rst-sidebar-expanded-width: 340px;
+	--rst-sidebar-icon-rail-width: 80px;
+	--rst-sidebar-items-width: 260px;
+	--rst-sidebar-tree-indent: 12px;
+	--rst-sidebar-group-gap: 4px;
+}
+
+.rst-workspace-tree-hidden {
+	display: none !important;
+}
+
+.side-menu .modules-menu-list > .rst-workspace-tree-hidden,
+body:not(.hide-main-menu) .side-menu .side-menu-icons > .rst-workspace-tree-hidden {
+	display: none !important;
+}
+
+body:not(.hide-main-menu) {
+	.side-menu {
+		background: #fafbfc;
+		border-right-color: #e3e8ef;
+	}
+
+	.side-menu-icons {
+		background: #ffffff;
+		transition: width 0.25s ease, background 0.2s ease;
+	}
+
+	.side-menu-icons .rst-workspace-tree-host {
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		bottom: 0;
+		overflow: hidden;
+	}
+
+	.side-menu .side-menu-icons .rst-workspace-tree--expanded {
+		padding: 4px 6px 8px;
+	}
+}
+
+.rst-workspace-tree--expanded {
+	margin: 0;
+	padding: 6px 8px 10px;
+	list-style: none;
+
+	.rst-ws-item {
+		margin: 0 0 var(--rst-sidebar-group-gap);
+	}
+
+	.rst-ws-row {
+		display: flex;
+		align-items: center;
+		gap: 0;
+		min-height: 34px;
+		border-radius: 8px;
+		transition: background 0.16s ease;
+	}
+
+	.rst-ws-toggle,
+	.rst-ws-toggle-spacer {
+		flex: 0 0 16px;
+		width: 16px;
+		height: 16px;
+	}
+
+	.rst-ws-toggle {
+		border: 0;
+		background: transparent;
+		color: #94a3b8;
+		padding: 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: color 0.15s ease, background 0.15s ease;
+
+		&:hover {
+			color: var(--primary);
+			background: color-mix(in srgb, var(--primary) 8%, transparent);
+		}
+	}
+
+	.rst-ws-toggle-icon {
+		font-size: 11px;
+		transition: transform 0.18s ease;
+	}
+
+	.rst-ws-item.is-expanded > .rst-ws-row .rst-ws-toggle-icon {
+		transform: rotate(90deg);
+	}
+
+	.rst-ws-link {
+		flex: 1 1 auto;
+		min-width: 0;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		border: 0;
+		border-radius: 8px;
+		padding: 6px 8px;
+		color: #334155;
+		text-decoration: none;
+		font-size: 12px;
+		font-weight: 600;
+		line-height: 1.2;
+		transition: background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+		box-shadow: none;
+
+		i {
+			flex: 0 0 auto;
+			font-size: 16px;
+			width: 18px;
+			text-align: center;
+		}
+
+		&:hover {
+			color: var(--primary);
+			background: color-mix(in srgb, var(--primary) 8%, transparent);
+		}
+
+		&.active,
+		.rst-ws-item.is-active > .rst-ws-row & {
+			color: var(--primary);
+			font-weight: 700;
+			background: color-mix(in srgb, var(--primary) 12%, transparent);
+			box-shadow: inset 3px 0 0 var(--primary);
+		}
+	}
+
+	.rst-ws-label {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.rst-ws-children {
+		margin: 2px 0 0;
+		padding: 0 0 0 var(--rst-sidebar-tree-indent);
+		list-style: none;
+		display: none;
+		overflow: hidden;
+
+		&.is-visible {
+			display: block;
+		}
+
+		.rst-ws-link {
+			font-size: 11px;
+			font-weight: 600;
+			padding: 5px 8px;
+		}
+
+		.rst-ws-row {
+			min-height: 30px;
+		}
+	}
+
+	.rst-ws-item--parent > .rst-ws-row .rst-ws-link {
+		font-weight: 700;
+		color: #1e293b;
+	}
+
+	.rst-ws-item.is-parent-active > .rst-ws-row .rst-ws-link {
+		color: var(--primary);
+	}
+
+	.rst-ws-item.is-parent-active > .rst-ws-row .rst-ws-toggle {
+		color: var(--primary);
+	}
+}
+
+.side-menu .modules-menu-list {
+	.rst-workspace-tree--popup {
+		margin: 0;
+		padding: 8px 12px 12px;
+
+		.rst-ws-link {
+			font-size: 13px;
+			padding: 7px 10px;
+		}
+
+		.rst-ws-row {
+			min-height: 36px;
+		}
+
+		.rst-ws-children {
+			padding-left: 18px;
+		}
+	}
+}
+
+.side-mobile-menu .rst-workspace-tree-host {
+	position: static;
+	overflow: visible;
+}
+
+.side-mobile-menu .rst-workspace-tree--mobile {
+	margin: 6px 8px;
+
+	.rst-ws-link {
+		font-size: 13px;
+		padding: 7px 8px;
+	}
+
+	.rst-ws-row {
+		min-height: 36px;
+	}
+}

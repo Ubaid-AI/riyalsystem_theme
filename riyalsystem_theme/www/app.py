@@ -10,6 +10,7 @@ import secrets
 import frappe
 import frappe.sessions
 from frappe import _
+from frappe.utils import cint
 from frappe.utils.jinja_globals import is_rtl
 
 SCRIPT_TAG_PATTERN = re.compile(r"\<script[^<]*\</script\>")
@@ -93,10 +94,10 @@ def get_context(context):
             "theme_color": theme_color_name,
             "theme_color_class": theme_color_class,
             "effective_menu_opening_type": effective_menu_opening_type,
-            "theme_color_on_navbar": 'layout-navbar-color-style' if ('apply_on_navbar' in theme_settings_list and theme_settings_list['apply_on_navbar'] == '1') else '',
-            "apply_on_menu": 'layout-menu-color-style' if ('apply_on_menu' in theme_settings_list and theme_settings_list['apply_on_menu'] == '1') else '',
-            "apply_on_dashboard": 'layout-dashboard-color-style' if ('apply_on_dashboard' in theme_settings_list and theme_settings_list['apply_on_dashboard'] == '1') else '',
-            "apply_on_workspace": 'layout-workspace-color-style' if ('apply_on_workspace' in theme_settings_list and theme_settings_list['apply_on_workspace'] == '1') else '',
+            "theme_color_on_navbar": 'layout-navbar-color-style' if cint(theme_settings_list.get('apply_on_navbar')) else '',
+            "apply_on_menu": 'layout-menu-color-style' if cint(theme_settings_list.get('apply_on_menu')) else '',
+            "apply_on_dashboard": 'layout-dashboard-color-style' if cint(theme_settings_list.get('apply_on_dashboard')) else '',
+            "apply_on_workspace": 'layout-workspace-color-style' if cint(theme_settings_list.get('apply_on_workspace')) else '',
             "dark_theme": theme
         }
     )

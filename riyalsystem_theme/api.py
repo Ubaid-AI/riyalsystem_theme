@@ -86,25 +86,32 @@ def get_theme_settings():
                                SELECT `photo` FROM `tabSlideshow Photos` WHERE `parent` = 'Theme Settings';
             """, as_dict=True, debug=False)
 
+    def _check(field):
+        return cint(settings_list.get(field))
+
     return {
-        'enable_background': settings_list['enable_background'] if ("enable_background" in settings_list) else '',
-        'background_photo': settings_list['background_photo'] if ("background_photo" in settings_list) else '',
-        'background_type': settings_list['background_type'] if ("background_type" in settings_list) else '',
-        'full_page_background': settings_list['full_page_background'] if ("full_page_background" in settings_list) else '',
-        'transparent_background': settings_list['transparent_background'] if ("transparent_background" in settings_list) else '',
+        'enable_background': settings_list.get('enable_background') or '',
+        'background_photo': settings_list.get('background_photo') or '',
+        'background_type': settings_list.get('background_type') or '',
+        'full_page_background': settings_list.get('full_page_background') or '',
+        'transparent_background': settings_list.get('transparent_background') or '',
         'slideshow_photos': slideshow_photos,
-        'dark_view': settings_list['dark_view'] if ("dark_view" in settings_list) else '',
-        'theme_color': settings_list['theme_color'] if ("theme_color" in settings_list) else '',
-        'open_workspace_on_mobile_menu': settings_list['open_workspace_on_mobile_menu'] if ("open_workspace_on_mobile_menu" in settings_list) else '',
-        'show_icon_label': settings_list['show_icon_label'] if ("show_icon_label" in settings_list) else '',
-        'hide_icon_tooltip': settings_list['hide_icon_tooltip'] if ("hide_icon_tooltip" in settings_list) else '',
-        'always_close_sub_menu': settings_list['always_close_sub_menu'] if ("always_close_sub_menu" in settings_list) else '',
-        'menu_opening_type': settings_list['menu_opening_type'] if ("menu_opening_type" in settings_list) else '',
-        'apply_dark_mode': settings_list['apply_dark_mode'] if ("apply_dark_mode" in settings_list) else '',
-        'default_type': settings_list['default_type'] if ("default_type" in settings_list) else '',
-        'default_workspace': settings_list['default_workspace'] if ("default_workspace" in settings_list) else '',
-        'default_dashboard': settings_list['default_dashboard'] if ("default_dashboard" in settings_list) else '',
-        'loading_image': settings_list['loading_image'] if ("loading_image" in settings_list) else ''
+        'dark_view': _check('dark_view'),
+        'theme_color': settings_list.get('theme_color') or '',
+        'open_workspace_on_mobile_menu': _check('open_workspace_on_mobile_menu'),
+        'show_icon_label': _check('show_icon_label'),
+        'hide_icon_tooltip': _check('hide_icon_tooltip'),
+        'always_close_sub_menu': _check('always_close_sub_menu'),
+        'menu_opening_type': settings_list.get('menu_opening_type') or '',
+        'apply_dark_mode': _check('apply_dark_mode'),
+        'apply_on_navbar': _check('apply_on_navbar'),
+        'apply_on_menu': _check('apply_on_menu'),
+        'apply_on_dashboard': _check('apply_on_dashboard'),
+        'apply_on_workspace': _check('apply_on_workspace'),
+        'default_type': settings_list.get('default_type') or '',
+        'default_workspace': settings_list.get('default_workspace') or '',
+        'default_dashboard': settings_list.get('default_dashboard') or '',
+        'loading_image': settings_list.get('loading_image') or ''
     }
 
 
@@ -227,6 +234,7 @@ def update_menu_modules(modules):
                     "custom_hide_from_menu": cint(module.get("custom_hide_from_menu")),
                     "icon": module["icon"],
                     "sequence_id": int(module["sequence_id"]),
+                    "parent_page": module.get("parent_page") or '',
                 }
                 if module.get('title'):
                     values["title"] = module['title']
@@ -244,6 +252,7 @@ def update_menu_modules(modules):
                 workspace.content = module["content"]
                 workspace.label = module["label"]
                 workspace.sequence_id = int(module["sequence_id"])
+                workspace.parent_page = module.get("parent_page") or ''
                 workspace.for_user = ""
                 workspace.public = 1
                 workspace.save(ignore_permissions=True)

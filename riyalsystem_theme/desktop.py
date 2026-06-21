@@ -40,6 +40,7 @@ def get_workspace_sidebar_items():
 		"custom_hide_from_menu",
 		"for_user",
 		"parent_page",
+		"sequence_id",
 		"content",
 		"public",
 		"module",

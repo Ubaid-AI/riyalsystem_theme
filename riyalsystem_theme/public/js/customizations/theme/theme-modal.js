@@ -15,12 +15,16 @@
 		'Dark Gray',
 	];
 
-	function cint(value) {
-		return parseInt(value, 10) || 0;
+	function as_theme_check(value) {
+		return frappe.riyalsystem_theme && frappe.riyalsystem_theme.as_theme_check
+			? frappe.riyalsystem_theme.as_theme_check(value)
+			: parseInt(value, 10) ? 1 : 0;
 	}
 
 	function get_settings() {
-		return frappe.theme_settings || {};
+		return frappe.riyalsystem_theme && frappe.riyalsystem_theme.normalize_theme_settings
+			? frappe.riyalsystem_theme.normalize_theme_settings(frappe.theme_settings || {})
+			: frappe.theme_settings || {};
 	}
 
 	function get_active_color() {
@@ -39,10 +43,13 @@
 	function apply_settings_to_page(values, theme_color) {
 		const settings = Object.assign({}, get_settings(), values, {
 			theme_color: theme_color,
-			apply_dark_mode: cint(values.apply_dark_mode),
-			dark_view: cint(values.apply_dark_mode),
+			apply_on_menu: as_theme_check(values.apply_on_menu),
+			apply_on_dashboard: as_theme_check(values.apply_on_dashboard),
+			apply_on_workspace: as_theme_check(values.apply_on_workspace),
+			apply_on_navbar: as_theme_check(values.apply_on_navbar),
+			apply_dark_mode: as_theme_check(values.apply_dark_mode),
+			dark_view: as_theme_check(values.apply_dark_mode),
 		});
-		frappe.theme_settings = settings;
 
 		if (frappe.riyalsystem_theme && frappe.riyalsystem_theme.apply_theme_settings_to_page) {
 			frappe.riyalsystem_theme.apply_theme_settings_to_page(settings);
@@ -109,31 +116,31 @@
 					fieldname: 'apply_on_menu',
 					label: __('Apply on Menu'),
 					fieldtype: 'Check',
-					default: cint(settings.apply_on_menu),
+					default: as_theme_check(settings.apply_on_menu),
 				},
 				{
 					fieldname: 'apply_on_dashboard',
 					label: __('Apply on Dashboard'),
 					fieldtype: 'Check',
-					default: cint(settings.apply_on_dashboard),
+					default: as_theme_check(settings.apply_on_dashboard),
 				},
 				{
 					fieldname: 'apply_on_workspace',
 					label: __('Apply on Workspace'),
 					fieldtype: 'Check',
-					default: cint(settings.apply_on_workspace),
+					default: as_theme_check(settings.apply_on_workspace),
 				},
 				{
 					fieldname: 'apply_on_navbar',
 					label: __('Apply on Navbar'),
 					fieldtype: 'Check',
-					default: cint(settings.apply_on_navbar),
+					default: as_theme_check(settings.apply_on_navbar),
 				},
 				{
 					fieldname: 'apply_dark_mode',
 					label: __('Apply Dark Mode'),
 					fieldtype: 'Check',
-					default: cint(settings.apply_dark_mode || settings.dark_view),
+					default: as_theme_check(settings.apply_dark_mode || settings.dark_view),
 				},
 			],
 			primary_action_label: __('Save Settings'),
@@ -147,19 +154,23 @@
 					'.theme-setting-colors-select.theme-setting-modal button.active'
 				);
 				const theme_color = $active.data('color') || get_active_color();
+				const payload = {
+					theme_color: theme_color,
+					apply_on_menu: as_theme_check(values.apply_on_menu),
+					apply_on_dashboard: as_theme_check(values.apply_on_dashboard),
+					apply_on_workspace: as_theme_check(values.apply_on_workspace),
+					apply_on_navbar: as_theme_check(values.apply_on_navbar),
+					apply_dark_mode: as_theme_check(values.apply_dark_mode),
+				};
 
 				frappe.call({
 					method: 'riyalsystem_theme.api.update_theme_settings',
-					args: {
-						theme_color: theme_color,
-						apply_on_menu: cint(values.apply_on_menu),
-						apply_on_dashboard: cint(values.apply_on_dashboard),
-						apply_on_workspace: cint(values.apply_on_workspace),
-						apply_on_navbar: cint(values.apply_on_navbar),
-						apply_dark_mode: cint(values.apply_dark_mode),
-					},
+					args: payload,
 					callback: function () {
-						apply_settings_to_page(values, theme_color);
+						frappe.theme_settings = Object.assign(frappe.theme_settings || {}, payload, {
+							dark_view: payload.apply_dark_mode,
+						});
+						apply_settings_to_page(payload, theme_color);
 						frappe.ui.toolbar.clear_cache();
 						setTimeout(function () {
 							dialog.hide();

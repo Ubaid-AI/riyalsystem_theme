@@ -94,7 +94,7 @@ www.abdo-host.com
 			if (!window.frappe) window.frappe = {};
 
 			frappe.boot = JSON.parse({{ boot }});
-			frappe.theme_settings = {{ theme_settings }};
+			frappe.theme_settings = {{ theme_settings | tojson }};
 			frappe._messages = frappe.boot["__messages"];
 			frappe.csrf_token = "{{ csrf_token }}";
 
@@ -112,6 +112,8 @@ www.abdo-host.com
 		{{ include_script(include) }}
 		{% endfor %}
 		<script type="text/javascript" src="/assets/riyalsystem_theme/js/datavalue_theme.js?ver={{ build_version }}"></script>
+		<script type="text/javascript" src="/assets/riyalsystem_theme/js/customizations/theme/theme-bools.js?ver={{ build_version }}"></script>
+		<script type="text/javascript" src="/assets/riyalsystem_theme/js/customizations/workspace/sidebar-hierarchy.js?ver={{ build_version }}"></script>
 		<script type="text/javascript" src="/assets/riyalsystem_theme/js/customizations/workspace/menu.js?ver={{ build_version }}"></script>
 		<script type="text/javascript" src="/assets/riyalsystem_theme/js/customizations/workspace/edit-modules.js?ver={{ build_version }}"></script>
 		<script type="text/javascript" src="/assets/riyalsystem_theme/js/customizations/theme/settings.js?ver={{ build_version }}"></script>

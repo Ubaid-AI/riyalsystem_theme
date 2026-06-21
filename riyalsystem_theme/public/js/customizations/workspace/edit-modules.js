@@ -56,7 +56,9 @@
 					custom_hide_from_menu: cint(mod.custom_hide_from_menu),
 					custom_open_dashboard: cint(mod.custom_open_dashboard),
 					custom_default_dashboard: mod.custom_default_dashboard || '',
-					sequence: index + 1,
+					parent_page: mod.parent_page || '',
+					sequence_id: cint(mod.sequence_id) || index + 1,
+					sequence: cint(mod.sequence_id) || index + 1,
 				};
 			});
 
@@ -75,12 +77,12 @@
 						},
 						fields: [
 							{
-								fieldname: 'sequence',
-								fieldtype: 'Data',
-								label: __('#'),
+								fieldname: 'sequence_id',
+								fieldtype: 'Int',
+								label: __('Sequence'),
 								in_list_view: 1,
-								read_only: 1,
 								columns: 1,
+								default: 1,
 							},
 							{
 								fieldname: 'name',
@@ -96,6 +98,13 @@
 								label: __('Menu Title'),
 								in_list_view: 1,
 								reqd: 1,
+							},
+							{
+								fieldname: 'parent_page',
+								fieldtype: 'Link',
+								options: 'Workspace',
+								label: __('Parent Group'),
+								in_list_view: 1,
 							},
 							{
 								fieldname: 'icon',
@@ -144,11 +153,12 @@
 
 						payload.push({
 							idx: row && row.idx ? row.idx : 0,
-							sequence_id: row && row.idx ? row.idx : 0,
+							sequence_id: cint(row && row.sequence_id) || (row && row.idx ? row.idx : 0),
 							name: row && row.name ? row.name : mod.name,
 							title: row && row.title ? row.title : mod.title || mod.name,
 							label: row && row.title ? row.title : mod.label || mod.name,
 							icon: row && row.icon ? row.icon : mod.icon,
+							parent_page: row && row.parent_page ? row.parent_page : '',
 							custom_hide_from_menu: cint(row && row.custom_hide_from_menu),
 							custom_open_dashboard: cint(row && row.custom_open_dashboard),
 							custom_default_dashboard:
@@ -161,11 +171,12 @@
 					new_rows.forEach(function (row) {
 						payload.push({
 							idx: row.idx,
-							sequence_id: row.idx,
+							sequence_id: cint(row.sequence_id) || row.idx,
 							name: row.title,
 							title: row.title,
 							label: row.title,
 							icon: row.icon || 'fal fa-folder',
+							parent_page: row.parent_page || '',
 							custom_hide_from_menu: cint(row.custom_hide_from_menu),
 							custom_open_dashboard: cint(row.custom_open_dashboard),
 							custom_default_dashboard: row.custom_default_dashboard || '',

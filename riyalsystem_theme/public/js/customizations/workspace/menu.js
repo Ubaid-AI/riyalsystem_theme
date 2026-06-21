@@ -55,6 +55,43 @@
 		});
 	}
 
+	function get_sidebar_api() {
+		if (frappe.riyalsystem_theme && frappe.riyalsystem_theme.sidebar) {
+			return frappe.riyalsystem_theme.sidebar;
+		}
+		if (window.riyalsystem_theme && window.riyalsystem_theme.sidebar) {
+			return window.riyalsystem_theme.sidebar;
+		}
+		return null;
+	}
+
+	function find_page_in_sidebar(vm, name) {
+		if (!vm || !name) {
+			return null;
+		}
+
+		const direct = find_page_by_name(vm.modules_list, name);
+		if (direct) {
+			return direct;
+		}
+
+		const sidebar = get_sidebar_api();
+		if (sidebar && sidebar.find_page_in_sidebar) {
+			return sidebar.find_page_in_sidebar(vm, name);
+		}
+
+		return null;
+	}
+
+	function schedule_hierarchical_sidebar(vm) {
+		const sidebar = get_sidebar_api();
+		if (sidebar && sidebar.schedule_hierarchical_sidebar) {
+			sidebar.schedule_hierarchical_sidebar(vm);
+		} else if (sidebar && sidebar.render_hierarchical_sidebar) {
+			sidebar.render_hierarchical_sidebar(vm);
+		}
+	}
+
 	function get_side_menu_vm() {
 		const el = document.getElementById('side-menu-component');
 		if (!el) {
@@ -177,6 +214,8 @@
 							vm.active_module =
 								find_page_by_name(vm.modules_list, target_name) || vm.modules_list[0];
 						}
+
+						schedule_hierarchical_sidebar(vm);
 					},
 					error: function () {
 						hide_splash();
@@ -243,7 +282,7 @@
 
 		if (typeof vm.open_module === 'function') {
 			vm.open_module = function (name, is_mobile) {
-				const page = find_page_by_name(vm.modules_list, name);
+				const page = find_page_in_sidebar(vm, name);
 				const route = route_for_module(name, page);
 
 				$('.btn-open-modules').removeClass('active').find('i').removeClass().addClass('flaticon-menu');
@@ -264,7 +303,22 @@
 				} else {
 					vm.is_shown_mobile_menu = true;
 				}
+
+				schedule_hierarchical_sidebar(vm);
 			};
+		}
+
+		if (typeof vm.after_side_menu === 'function') {
+			const original_after_side_menu = vm.after_side_menu.bind(vm);
+			vm.after_side_menu = function () {
+				original_after_side_menu();
+				schedule_hierarchical_sidebar(vm);
+			};
+		}
+
+		const sidebar = get_sidebar_api();
+		if (sidebar && sidebar.ensure_sidebar_observer) {
+			sidebar.ensure_sidebar_observer();
 		}
 
 		vm._dv_menu_patched = true;
