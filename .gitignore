@@ -1,0 +1,13 @@
+.DS_Store
+*.pyc
+*.egg-info
+*.swp
+tags
+node_modules
+riyalsystem_theme/public/node_modules
+riyalsystem_theme/public/dist
+riyalsystem_theme/public/js/vue
+riyalsystem_theme/public/js/frappe
+riyalsystem_theme/public/js/datavalue_theme.bundle.js
+riyalsystem_theme/public/js/datavalue_theme_web.bundle.js
+__pycache__
