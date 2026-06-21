@@ -264,3 +264,35 @@ override_whitelisted_methods = {
 # default_log_clearing_doctypes = {
 #	"Logging DocType Name": 30  # days to retain logs
 # }
+
+# Fixtures
+# --------
+
+fixtures = [
+	{
+		"dt": "Custom HTML Block",
+		"filters": [
+			[
+				"name",
+				"in",
+				[
+					"RST Selling Process Flow",
+					"RST Buying Process Flow",
+					"RST CRM Process Flow",
+					"RST Stock Process Flow",
+					"RST Manufacturing Process Flow",
+					"RST Accounting Process Flow",
+					"RST Projects Process Flow",
+					"RST HR Process Flow",
+					"RST Support Process Flow",
+					"RST Quality Process Flow",
+					"RST Assets Process Flow",
+				],
+			]
+		],
+	},
+]
+
+after_migrate = [
+	"riyalsystem_theme.workspace_process_flows.sync.sync_blocks",
+]
