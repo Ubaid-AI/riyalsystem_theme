@@ -114,13 +114,13 @@
    "default": "0",
    "fieldname": "show_icon_label",
    "fieldtype": "Check",
-   "label": "Show Icon Label"
+   "label": "Show Labels in Collapsed Mode"
   },
   {
    "default": "0",
    "fieldname": "hide_icon_tooltip",
    "fieldtype": "Check",
-   "label": "Hide Icon Tooltip"
+   "label": "Hide Tooltips in Collapsed Mode"
   },
   {
    "fieldname": "loading_image",

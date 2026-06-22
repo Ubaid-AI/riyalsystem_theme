@@ -59,7 +59,8 @@
 			return;
 		}
 
-		$icons.toggleClass('menu-icons-with-label', as_theme_bool(settings.show_icon_label));
+		const show_label = as_theme_bool(settings.show_icon_label);
+		$icons.toggleClass('menu-icons-with-label', show_label);
 
 		const tooltip_mode = as_theme_bool(settings.hide_icon_tooltip) ? '' : 'tipsy';
 		$icons.find('> ul > li > a').attr('data-toggle', tooltip_mode);
