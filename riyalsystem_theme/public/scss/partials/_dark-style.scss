@@ -444,20 +444,14 @@ html[data-theme="dark"] {
     }
   }
 
-  .widget.number-widget-box {
-    background-color: #16181b;
-    border: 1px solid var(--border-color);
-    box-shadow: none;
-  }
+  /* number cards styled in _number-cards.scss */
 
   .report-summary {
     background-color: var(--bg-color);
   }
 
   .dv-form-widgets .widget-group .widget.number-widget-box {
-    background: #16181b;
-    border-color: #24292f;
-    box-shadow: none;
+    /* styled in _number-cards.scss */
   }
 
   .side-custom-menu {

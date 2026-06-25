@@ -322,7 +322,7 @@ button.btn.btn-default.btn-primary {
   }
 }
 
-.widget.dashboard-widget-box, .number-widget-box {
+.widget.dashboard-widget-box {
   border: 1px solid #ddd;
   box-shadow: 0px 3px 10px -5px rgba(0, 0, 0, .20);
 }
@@ -345,7 +345,7 @@ button.btn.btn-default.btn-primary {
 }
 
 .widget.number-widget-box {
-  min-height: 110px;
+  /* styled in _number-cards.scss */
 }
 
 .layout-main-section .frappe-list .result, .layout-main-section .frappe-list .no-result, .layout-main-section .frappe-list .freeze, .layout-main-section .report-wrapper .result, .layout-main-section .report-wrapper .no-result, .layout-main-section .report-wrapper .freeze {

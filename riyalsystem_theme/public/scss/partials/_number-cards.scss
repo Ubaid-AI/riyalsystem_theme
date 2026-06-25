@@ -1,0 +1,417 @@
+$imp: !important;
+
+/* =====================================================================
+   Number cards — theme-aware modern KPI widgets
+   Colors follow applied theme via --primary / --blue-* (app.html)
+   Dark mode uses --fg-color, --border-color, --text-* remaps
+   ===================================================================== */
+
+.widget.number-widget-box {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--primary) 9%, var(--fg-color, #ffffff)) 0%,
+    var(--fg-color, #ffffff) 52%,
+    color-mix(in srgb, var(--primary) 5%, var(--fg-color, #ffffff)) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--primary) 14%, var(--border-color, #e6eaf0));
+  border-radius: 16px;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 10px 28px -12px color-mix(in srgb, var(--primary) 22%, transparent);
+  min-height: 124px;
+  padding: 18px 20px 16px 24px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.22s ease;
+
+  /* theme accent rail */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    left: 0;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+    background: linear-gradient(
+      180deg,
+      var(--primary) 0%,
+      var(--primary-hover, var(--primary)) 100%
+    );
+    box-shadow: 0 0 12px color-mix(in srgb, var(--primary) 45%, transparent);
+  }
+
+  /* decorative theme glow */
+  &::after {
+    content: "";
+    position: absolute;
+    top: -32px;
+    right: -32px;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--primary) 20%, transparent) 0%,
+      transparent 72%
+    );
+    pointer-events: none;
+    opacity: 0.75;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--primary) 30%, var(--border-color, #e6eaf0));
+    box-shadow:
+      0 2px 6px rgba(15, 23, 42, 0.06),
+      0 18px 42px -14px color-mix(in srgb, var(--primary) 34%, transparent);
+
+    &::after {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+
+  .widget-head {
+    padding: 0;
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 1;
+
+    .widget-label .widget-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: color-mix(in srgb, var(--primary) 38%, var(--text-muted, #74808b)) $imp;
+      margin-top: 0 $imp;
+      line-height: 1.35;
+    }
+
+    .widget-control {
+      right: -4px;
+      top: -10px;
+      z-index: 2;
+
+      .btn {
+        background: color-mix(in srgb, var(--primary) 6%, var(--subtle-fg, #f4f6f9)) $imp;
+        border: 1px solid color-mix(in srgb, var(--primary) 16%, var(--border-color, #e1e5ec)) $imp;
+        border-radius: 9px $imp;
+        color: color-mix(in srgb, var(--primary) 55%, var(--text-color, #5b6573)) $imp;
+        height: 28px $imp;
+        width: 28px $imp;
+        padding: 0 $imp;
+        line-height: 26px;
+        opacity: 0;
+        backdrop-filter: blur(6px);
+        transition: opacity 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+
+        &:hover {
+          background: color-mix(in srgb, var(--primary) 12%, var(--subtle-fg, #eef1f6)) $imp;
+          border-color: color-mix(in srgb, var(--primary) 40%, var(--border-color, #e1e5ec)) $imp;
+          color: var(--primary) $imp;
+        }
+      }
+    }
+  }
+
+  &:hover .widget-head .widget-control .btn,
+  .widget-head .widget-control:hover .btn {
+    opacity: 1;
+  }
+
+  .widget-body {
+    text-align: left;
+    position: relative;
+    z-index: 1;
+
+    .number-card-loading {
+      height: 46px;
+      font-size: 13px;
+      color: var(--text-muted, #9aa4b2);
+    }
+
+    .widget-content {
+      padding-top: 4px $imp;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .number {
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 1.1;
+        color: var(--heading-color, var(--text-color, #1f272e));
+        letter-spacing: -0.03em;
+      }
+
+      .number-text {
+        font-size: 12px;
+        color: var(--text-muted, #74808b);
+        padding: 0;
+      }
+
+      .percentage-stat-area {
+        margin-top: 0;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 11px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--primary) 8%, var(--subtle-fg, #f4f6f9));
+        border: 1px solid color-mix(in srgb, var(--primary) 12%, transparent);
+        width: fit-content;
+
+        .indicator-pill-round {
+          height: 16px;
+          width: 16px;
+          margin: 0;
+        }
+
+        .stat-period {
+          margin-left: 0;
+          color: var(--text-muted, #9aa4b2);
+          font-weight: 500;
+        }
+      }
+
+      .green-stat {
+        color: var(--green-500, #2e7d32) $imp;
+        background: color-mix(in srgb, var(--green-500, #2e7d32) 14%, var(--fg-color, #ffffff));
+        border-color: color-mix(in srgb, var(--green-500, #2e7d32) 22%, transparent);
+
+        use {
+          stroke: var(--green-500, #2e7d32);
+        }
+      }
+
+      .red-stat {
+        color: var(--red-500, #c62828) $imp;
+        background: color-mix(in srgb, var(--red-500, #c62828) 14%, var(--fg-color, #ffffff));
+        border-color: color-mix(in srgb, var(--red-500, #c62828) 22%, transparent);
+
+        use {
+          stroke: var(--red-500, #c62828);
+        }
+      }
+
+      .grey-stat {
+        color: color-mix(in srgb, var(--primary) 40%, var(--text-muted, #5b6573)) $imp;
+        background: color-mix(in srgb, var(--primary) 6%, var(--subtle-fg, #f4f6f9));
+        border-color: color-mix(in srgb, var(--primary) 10%, transparent);
+      }
+    }
+  }
+}
+
+/* Workspace / dashboard grid spacing */
+.ce-block .widget.number-widget-box,
+.widget-group-body .widget.number-widget-box {
+  margin: 0;
+}
+
+/* Report view summary strip */
+.report-summary {
+  gap: 12px;
+  padding: 14px 16px;
+  background: color-mix(in srgb, var(--primary) 5%, var(--subtle-fg, #f4f6f9));
+  border: 1px solid color-mix(in srgb, var(--primary) 12%, var(--border-color, #e6eaf0));
+  border-radius: 16px;
+  box-shadow: none;
+
+  .summary-item {
+    position: relative;
+    background: var(--fg-color, #ffffff);
+    border: 1px solid color-mix(in srgb, var(--primary) 10%, var(--border-color, #e6eaf0));
+    border-radius: 14px;
+    padding: 12px 14px 12px 18px;
+    min-width: 120px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px -10px color-mix(in srgb, var(--primary) 18%, transparent);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: var(--primary);
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--primary) 24%, var(--border-color, #e6eaf0));
+      box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--primary) 26%, transparent);
+    }
+  }
+
+  .summary-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--primary) 35%, var(--text-muted, #74808b));
+  }
+
+  .summary-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--heading-color, var(--text-color, #1f272e));
+    margin-top: 4px;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Stronger theme tint when workspace / dashboard color is enabled */
+body.layout-workspace-color-style,
+body.layout-dashboard-color-style {
+  .widget.number-widget-box {
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--primary) 14%, var(--blue-50, var(--fg-color))) 0%,
+      var(--fg-color, #ffffff) 48%,
+      color-mix(in srgb, var(--primary) 8%, var(--blue-50, var(--fg-color))) 100%
+    );
+    border-color: color-mix(in srgb, var(--primary) 22%, var(--blue-300, var(--border-color)));
+
+    &::before {
+      box-shadow: 0 0 16px color-mix(in srgb, var(--primary) 55%, transparent);
+    }
+
+    .widget-head .widget-label .widget-title {
+      color: color-mix(in srgb, var(--primary) 50%, var(--blue-800, var(--text-muted))) $imp;
+    }
+
+    .widget-body .widget-content .number {
+      color: var(--heading-color, var(--text-color, #1f272e)) $imp;
+    }
+  }
+
+  .report-summary {
+    background: color-mix(in srgb, var(--primary) 10%, var(--blue-100, var(--subtle-fg)));
+    border-color: color-mix(in srgb, var(--primary) 18%, var(--blue-300, var(--border-color)));
+
+    .summary-item {
+      background: color-mix(in srgb, var(--primary) 4%, var(--fg-color));
+      border-color: color-mix(in srgb, var(--primary) 16%, var(--blue-300, var(--border-color)));
+    }
+  }
+}
+
+/* Dark mode — theme accent preserved, surfaces follow dark palette */
+body.dv-dark-style,
+html[data-theme="dark"] {
+  .widget.number-widget-box {
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--primary) 16%, var(--fg-color, #242a30)) 0%,
+      var(--fg-color, #242a30) 50%,
+      color-mix(in srgb, var(--primary) 10%, #1a1d23) 100%
+    );
+    border-color: color-mix(in srgb, var(--primary) 22%, var(--border-color, #2a3038));
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.2),
+      0 10px 28px -12px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 color-mix(in srgb, var(--primary) 8%, transparent);
+
+    &:hover {
+      border-color: color-mix(in srgb, var(--primary) 38%, var(--border-color, #2a3038));
+      box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.25),
+        0 18px 42px -14px color-mix(in srgb, var(--primary) 28%, transparent);
+    }
+
+    &::after {
+      background: radial-gradient(
+        circle,
+        color-mix(in srgb, var(--primary) 28%, transparent) 0%,
+        transparent 72%
+      );
+      opacity: 0.9;
+    }
+
+    .widget-head .widget-label .widget-title {
+      color: color-mix(in srgb, var(--primary) 45%, var(--text-muted, #9aa4b2)) $imp;
+    }
+
+    .widget-body .widget-content .number {
+      color: var(--heading-color, var(--text-color, #f1f3f6)) $imp;
+    }
+
+    .widget-head .widget-control .btn {
+      background: color-mix(in srgb, var(--primary) 10%, #24282f) $imp;
+      border-color: color-mix(in srgb, var(--primary) 18%, #343a42) $imp;
+      color: color-mix(in srgb, var(--primary) 40%, #c8cdd4) $imp;
+
+      &:hover {
+        background: color-mix(in srgb, var(--primary) 18%, #24282f) $imp;
+        color: var(--primary) $imp;
+      }
+    }
+
+    .widget-body .widget-content .percentage-stat-area {
+      background: color-mix(in srgb, var(--primary) 12%, #24282f);
+      border-color: color-mix(in srgb, var(--primary) 16%, transparent);
+    }
+
+    .widget-body .widget-content .green-stat {
+      background: color-mix(in srgb, var(--green-500, #2e7d32) 18%, var(--fg-color, #242a30));
+    }
+
+    .widget-body .widget-content .red-stat {
+      background: color-mix(in srgb, var(--red-500, #c62828) 18%, var(--fg-color, #242a30));
+    }
+
+    .widget-body .widget-content .grey-stat {
+      background: color-mix(in srgb, var(--primary) 10%, #2a3038);
+      color: color-mix(in srgb, var(--primary) 35%, var(--text-muted, #c8cdd4)) $imp;
+    }
+  }
+
+  .report-summary {
+    background: color-mix(in srgb, var(--primary) 8%, var(--subtle-fg, #16181b));
+    border-color: color-mix(in srgb, var(--primary) 14%, var(--border-color, #2a3038));
+
+    .summary-item {
+      background: var(--fg-color, #242a30);
+      border-color: color-mix(in srgb, var(--primary) 16%, var(--border-color, #2a3038));
+    }
+
+    .summary-label {
+      color: color-mix(in srgb, var(--primary) 40%, var(--text-muted, #9aa4b2));
+    }
+
+    .summary-value {
+      color: var(--heading-color, var(--text-color, #f1f3f6));
+    }
+  }
+
+  &.layout-workspace-color-style,
+  &.layout-dashboard-color-style {
+    .widget.number-widget-box {
+      background: linear-gradient(
+        145deg,
+        color-mix(in srgb, var(--primary) 20%, var(--fg-color, #242a30)) 0%,
+        var(--fg-color, #242a30) 52%,
+        color-mix(in srgb, var(--primary) 14%, #1a1d23) 100%
+      );
+      border-color: color-mix(in srgb, var(--primary) 30%, var(--border-color, #2a3038));
+    }
+
+    .report-summary {
+      background: color-mix(in srgb, var(--primary) 12%, var(--subtle-fg, #16181b));
+      border-color: color-mix(in srgb, var(--primary) 22%, var(--border-color, #2a3038));
+    }
+  }
+}
