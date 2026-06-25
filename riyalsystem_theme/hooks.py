@@ -296,6 +296,5 @@ fixtures = [
 ]
 
 after_migrate = [
-	"riyalsystem_theme.workspace_process_flows.sync.sync_blocks",
 	"riyalsystem_theme.install.after_migrate",
 ]

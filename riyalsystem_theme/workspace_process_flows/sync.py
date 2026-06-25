@@ -13,9 +13,6 @@ FIXTURES_DIR = Path(__file__).parent.parent / "fixtures"
 
 def sync_blocks():
 	"""Create or update all process flow Custom HTML Block records."""
-	if frappe.flags.in_install and not frappe.flags.in_migrate:
-		return
-
 	for flow_key, flow in PROCESS_FLOWS.items():
 		_upsert_block(flow["block_name"], flow_key)
 
