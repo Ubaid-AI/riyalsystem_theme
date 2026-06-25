@@ -294,10 +294,12 @@ body.dv-dark-style, html[data-theme="dark"] {
     background: #242a30;
   }
 
-  .widget.dashboard-widget-box, .widget.shortcut-widget-box, .widget.links-widget-box {
+  .widget.shortcut-widget-box, .widget.links-widget-box {
     background: #1b1e23;
     border: 1px solid rgba(221, 221, 221, 0.15);
   }
+
+  /* dashboard chart widgets styled in _charts.scss */
 
   .widget.links-widget-box .widget-head {
     border-bottom: 1px solid rgba(221, 221, 221, 0.15);
@@ -422,10 +424,7 @@ html[data-theme="dark"] {
     color: #ffffff !important;
   }
 
-  body.layout-dashboard-color-style .widget.dashboard-widget-box {
-    background: $dark_style_box_bg_color !important;
-    border-color: $dark_style_border_color !important;
-  }
+  /* chart widgets styled in _charts.scss */
 
   body.layout-dashboard-color-style .widget.dashboard-widget-box .widget-head .widget-control .btn {
     background: #2c3139 !important;
@@ -531,10 +530,5 @@ body.dv-dark-style {
     }
   }
 
-  &.layout-dashboard-color-style {
-    .widget.dashboard-widget-box {
-      background: $dark_style_box_bg_color !important;
-      border-color: $dark_style_border_color !important;
-    }
-  }
+  /* chart widgets styled in _charts.scss */
 }

@@ -323,8 +323,7 @@ button.btn.btn-default.btn-primary {
 }
 
 .widget.dashboard-widget-box {
-  border: 1px solid #ddd;
-  box-shadow: 0px 3px 10px -5px rgba(0, 0, 0, .20);
+  /* styled in _charts.scss */
 }
 
 .widget.links-widget-box {
