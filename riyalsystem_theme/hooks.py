@@ -109,7 +109,7 @@ web_include_js = [
 # ------------
 
 # before_install = "riyalsystem_theme.install.before_install"
-# after_install = "riyalsystem_theme.install.after_install"
+after_install = "riyalsystem_theme.install.after_install"
 
 # Uninstallation
 # ------------
@@ -297,4 +297,5 @@ fixtures = [
 
 after_migrate = [
 	"riyalsystem_theme.workspace_process_flows.sync.sync_blocks",
+	"riyalsystem_theme.install.after_migrate",
 ]

@@ -1,0 +1,54 @@
+.print-heading {
+	text-align: right;
+	text-transform: uppercase;
+	color: #666;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #d1d8dd;
+}
+
+.print-heading h2 {
+	font-size: 24px;
+}
+
+.print-format th {
+	background-color: #eee !important;
+	border-bottom: 0px !important;
+}
+
+.print-format .primary.compact-item {
+    font-weight: bold;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------*/
+@media print {
+    @page { 
+        size: A4;
+        margin: 5mm;
+    }
+}
+
+@font-face {
+    font-family: 'Cairo Saudi';
+    src: url('https://cdn.jsdelivr.net/gh/UsmanSanawar/Cairo-with-Saudi-Currency@main/Cairo-Regular-Saudi.ttf') format('truetype');
+    unicode-range: U+00A7 !important; /* Only applies to § */
+}
+
+html body {
+    font-family: 'Cairo Saudi', serif !important;
+}
+
+/* Override styles for print */
+@media print {
+    html body {
+        font-family: 'Cairo Saudi', serif !important;
+    }
+}
+
+.print-format * {
+    color: #000 !important;
+    font-family: 'Cairo Saudi', serif !important;
+}
+/*-----------------------------------------------------------------------------------------------------------------*/
+
+/* modern format: for-test */
