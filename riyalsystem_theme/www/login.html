@@ -30,35 +30,62 @@
 			</span>
 		</div>
 	</div>
+	<div class="forgot-password-message text-right">
+		<a href="#forgot">{{ _("Forgot Password?") }}</a>
+	</div>
 </div>
 
 <div class="page-card-actions">
-	<div class="row">
-		<div class="col-md-6">
-			<button class="btn btn-sm btn-primary btn-block btn-login" type="submit"> {{ _("Login") }}</button>
-			{% if ldap_settings and ldap_settings.enabled %}
-			<button class="btn btn-sm btn-default btn-block btn-login btn-ldap-login"> {{ _("Login with LDAP") }}</button>
-			{% endif %}
-		</div>
-		<div class="col-md-6 text-right">
-			<div class="forgot-password-message"><a href="#forgot">{{ _("Forgot Password?") }}</a></div>
-		</div>
+	<button class="btn btn-sm btn-primary btn-block btn-login" type="submit"> {{ _("Login") }}</button>
+	{% if ldap_settings and ldap_settings.enabled %}
+	<button class="btn btn-sm btn-default btn-block btn-login btn-ldap-login"> {{ _("Login with LDAP") }}</button>
+	{% endif %}
+</div>
+{% endmacro %}
+
+{% macro brand_logo() %}
+<div class="login-brand">
+	<img class="app-logo" src="{{ logo }}" alt="{{ app_name }}">
+</div>
+{% endmacro %}
+
+{% macro card_head(title, subtitle) %}
+<div class="page-card-head">
+	{{ brand_logo() }}
+	<h2>{{ title }}</h2>
+	<p class="text-secondary font-size-md">{{ subtitle }}</p>
+</div>
+{% endmacro %}
+
+{% macro card_media() %}
+<div class="login-content-bg">
+	<div class="login-card-media">
+		{% for img in login_card_images %}
+		<img class="login-card-slide {% if loop.first %}active{% endif %}" src="{{ img }}" alt="">
+		{% endfor %}
 	</div>
+	<div class="login-copyrights">Powered By <a href="https://riyalsystem.com.sa/" target="_blank" rel="noopener noreferrer">Riyal System</a></div>
 </div>
 {% endmacro %}
 
 {% block head_include %}
-<!--<link type="text/css" rel="stylesheet" href="/assets/css/login.css?ver={{ build_version }}">-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{ (font_family or 'Cairo')|replace(' ', '+') }}:300,400,500,600,700,800,900&display=swap">
+<style>
+	#page-login {
+		--primary: {{ primary_color or '#007BFF' }};
+		--primary-hover: {{ primary_hover or '#0065cd' }};
+	}
+	#page-login,
+	#page-login .form-control,
+	#page-login .btn,
+	#page-login h2,
+	#page-login p,
+	#page-login a,
+	#page-login input {
+		font-family: "{{ font_family or 'Cairo' }}", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	}
+</style>
 {% endblock %}
-
-{% macro logo_section() %}
-<div class="page-card-head">
-    <div class="text-left">
-        <h2>{{ _('Welcome Back')}}</h2>
-        <p class="text-secondary font-size-md">{{ _('Login your account and start your business') }}</p>
-    </div>
-</div>
-{% endmacro %}
 
 {% block page_content %}
 <!-- {{ for_test }} -->
@@ -69,39 +96,27 @@
 			<p class="text-muted"> {{ _("You need to enable JavaScript for your app to work.") }}<br>{{ _("To enable it follow the instructions in the following link: {0}").format("<a href='https://enable-javascript.com/'>enable-javascript.com</a></p>") }}
 		</div>
 	</noscript>
+
 	<section class='for-login'>
 		<div class="login-content page-card">
-			<div class="login-content-bg">
-				<img class="app-logo" src="{{ logo }}">
-				<img class="app-login-bg" src="/assets/riyalsystem_theme/images/erpnext-hero-compressed.png">
-				
-			</div>
 			<div class="login-content-form">
-				{{ logo_section() }}
-				<form class="form-signin form-login" role="form">
+				{{ card_head(_('Welcome Back'), _('Login your account and start your business')) }}
+				<form class="form-signin form-login" role="form" autocomplete="on">
+					{{ email_login_body() }}
 					{%- if social_login -%}
-					<div class="page-card-body">
-						<div class="social-logins text-center">
-							<div class="social-login-buttons">
-								{% for provider in provider_logins %}
-								<div class="login-button-wrapper">
-									<a href="{{ provider.auth_url }}"
-										class="btn btn-block btn-default btn-sm btn-login-option btn-{{ provider.name }}">
-										{% if provider.icon %}
-											{{ provider.icon }}
-										{% endif %}
-										{{ _("Login With {0}").format(provider.provider_name) }}</a>
-								</div>
-								{% endfor %}
-								<p class="text-muted login-divider">{{ _("or") }}</p>
+					<div class="social-logins">
+						<p class="text-muted login-divider"><span>{{ _("or continue with") }}</span></p>
+						<div class="social-login-buttons">
+							{% for provider in provider_logins %}
+							<div class="login-button-wrapper">
+								<a href="{{ provider.auth_url }}"
+									class="btn btn-block btn-default btn-sm btn-login-option btn-{{ provider.name }}">
+									{% if provider.icon %}{{ provider.icon }}{% endif %}
+									{{ _("Login With {0}").format(provider.provider_name) }}</a>
 							</div>
+							{% endfor %}
 						</div>
-						<a href="#email"
-							class="btn btn-block btn-default btn-sm btn-login-option">
-						 {{ _("Login With Email") }}</a>
 					</div>
-					{% else %}
-						{{ email_login_body() }}
 					{%- endif -%}
 				</form>
 				{%- if not disable_signup -%}
@@ -111,40 +126,57 @@
 				</div>
 				{%- endif -%}
 			</div>
+			{{ card_media() }}
 		</div>
 	</section>
 
 	{%- if social_login -%}
 	<section class='for-email-login'>
 		<div class="login-content page-card">
-			{{ logo_section() }}
-			<form class="form-signin form-login" role="form">
-			{{ email_login_body() }}
-			</form>
+			<div class="login-content-form">
+				{{ card_head(_('Welcome Back'), _('Login your account and start your business')) }}
+				<form class="form-signin form-login" role="form" autocomplete="on">
+					{{ email_login_body() }}
+				</form>
+				<div class="text-center sign-up-message">
+					<a href="#login">&larr; {{ _("Back") }}</a>
+					{%- if not disable_signup -%}
+					&nbsp;&middot;&nbsp; {{ _("Don't have an account?") }}
+					<a href="#signup">{{ _("Sign up") }}</a>
+					{%- endif -%}
+				</div>
+			</div>
+			{{ card_media() }}
 		</div>
-		{%- if not disable_signup -%}
-		<div class="text-center sign-up-message">
-			{{ _("Don't have an account?") }}
-			<a href="#signup">{{ _("Sign up") }}</a>
-		</div>
-		{%- endif -%}
 	</section>
 	{%- endif -%}
+
+	<section class='for-twofactor'>
+		<div class="login-content page-card">
+			<div class="login-content-form">
+				{{ card_head(_('Verification'), _('Enter the verification code to continue')) }}
+				<form class="form-verify" role="form">
+					<div id="otp_div"></div>
+					<div class="page-card-body">
+						<input type="text" id="login_token" autocomplete="one-time-code" class="form-control" placeholder="{{ _('Verification Code') }}" required autofocus>
+					</div>
+					<div class="page-card-actions">
+						<button class="btn btn-sm btn-primary btn-block btn-login" type="submit">{{ _("Verify") }}</button>
+					</div>
+					<p class="text-center sign-up-message">
+						<a href="#login">&larr; {{ _("Back to Login") }}</a>
+					</p>
+				</form>
+			</div>
+			{{ card_media() }}
+		</div>
+	</section>
+
 	<section class='for-signup {{ "signup-disabled" if disable_signup else "" }}'>
 		<div class="login-content page-card">
-			<div class="login-content-bg">
-				<img class="app-logo" src="{{ logo }}">
-				<img class="app-login-bg" src="/assets/riyalsystem_theme/images/erpnext-hero-compressed.png">
-				<div class="text-center login-copyrights">Powered By <a href="https://riyalsystem.com.sa/" target="_blank" rel="noopener noreferrer">Riyal System</a></div>
-			</div>
 			<div class="login-content-form">
 				{%- if not disable_signup -%}
-					<div class="page-card-head">
-						<div class="text-left">
-							<h2>{{ _('New Account')}}</h2>
-							<p class="text-secondary font-size-md">{{ _('Register new account to complete your work') }}</p>
-						</div>
-					</div>
+					{{ card_head(_('New Account'), _('Register new account to complete your work')) }}
 					<form class="form-signin form-signup hide" role="form">
 						<div class="page-card-body">
 							<div class="form-group">
@@ -166,38 +198,28 @@
 						</div>
 						<div class="page-card-actions">
 							<button class="btn btn-sm btn-primary btn-block btn-signup" type="submit">{{ _("Sign up") }}</button>
-							<p class="text-center sign-up-message">
-								<a href="#login" class="blue"><i class="far fa-user"></i> {{ _("Have an account? Login") }}</a>
-							</p>
 						</div>
 					</form>
-					{%- else -%}
-					<div class='page-card-head'>
-						<span class='indicator gray'>{{_("Signup Disabled")}}</span>
+					<div class="text-center sign-up-message">
+						{{ _("Have an account?") }}
+						<a href="#login">{{ _("Login") }}</a>
 					</div>
-					<p>{{_("Signups have been disabled for this website.")}}</p>
-					<div><a href='/' class='btn btn-primary btn-sm'>{{ _("Home") }}</a></div>
+					{%- else -%}
+					{{ card_head(_('Signup Disabled'), _("Signups have been disabled for this website.")) }}
+					<div class="page-card-actions">
+						<a href='/' class='btn btn-primary btn-sm btn-block'>{{ _("Home") }}</a>
+					</div>
 				{%- endif -%}
 			</div>
+			{{ card_media() }}
 		</div>
-
 	</section>
 
 	<section class='for-forgot'>
 		<div class="login-content page-card">
-			<div class="login-content-bg">
-				<img class="app-logo" src="{{ logo }}">
-				<img class="app-login-bg" src="/assets/riyalsystem_theme/images/erpnext-hero-compressed.png">
-				<div class="text-center login-copyrights">Powered By <a href="https://riyalsystem.com.sa/" target="_blank" rel="noopener noreferrer">Riyal System</a></div>
-			</div>
 			<div class="login-content-form">
+				{{ card_head(_('Forgot Password'), _('Write your email to reset password')) }}
 				<form class="form-signin form-forgot hide" role="form">
-					<div class="page-card-head">
-						<div class="text-left">
-							<h2>{{ _('Forgot Password') }}</h2>
-							<p class="text-secondary font-size-md">{{ _('Write your email to reset password') }}</p>
-						</div>
-					</div>
 					<div class="page-card-body">
 						<div class="email-field">
 							<input type="email" id="forgot_email" class="form-control"
@@ -211,18 +233,17 @@
 										d="M17.5 7.57572V5.53026C17.5 5.1686 17.3563 4.82176 17.1006 4.56603C16.8449 4.31029 16.498 4.16663 16.1364 4.16663H3.86364C3.50198 4.16663 3.15513 4.31029 2.8994 4.56603C2.64367 4.82176 2.5 5.1686 2.5 5.53026V7.57572L10 10.8333L17.5 7.57572Z"
 										stroke="#74808B" stroke-miterlimit="10" stroke-linecap="square"/>
 							</svg>
-
 						</div>
 					</div>
 					<div class="page-card-actions">
-						<button class="btn btn-sm btn-primary btn-block btn-forgot" type="submit">{{ _("Reset Password") }}
-						</button>
-						<p class="text-center sign-up-message">
-							<a href="#login">{{ _("Back to Login") }}</a>
-						</p>
+						<button class="btn btn-sm btn-primary btn-block btn-forgot" type="submit">{{ _("Reset Password") }}</button>
 					</div>
+					<p class="text-center sign-up-message">
+						<a href="#login">{{ _("Back to Login") }}</a>
+					</p>
 				</form>
 			</div>
+			{{ card_media() }}
 		</div>
 	</section>
 </div>
@@ -230,6 +251,9 @@
 
 
 {% block script %}
+<script>
+	window.login_card_images = {{ login_card_images | tojson }};
+</script>
 <script>{% include "templates/includes/login/login.js" %}</script>
 {% endblock %}
 

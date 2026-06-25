@@ -31,6 +31,11 @@
   "menu_opening_type",
   "login_page_section",
   "login_page_logo",
+  "login_card_section",
+  "login_card_image_type",
+  "login_card_photo",
+  "login_card_slideshow",
+  "login_background_section",
   "enable_background",
   "background_type",
   "full_page_background",
@@ -67,6 +72,39 @@
    "fieldname": "login_page_section",
    "fieldtype": "Tab Break",
    "label": "Login Page"
+  },
+  {
+   "fieldname": "login_card_section",
+   "fieldtype": "Section Break",
+   "label": "Login Card Image",
+   "description": "Image shown beside the login form (the right side of the login card). Recommended size: 1000 \u00d7 1200 px (portrait) or larger, JPG/PNG, under 1 MB. The image is auto-cropped to fit, so keep the important content centered. If left empty a default image is used."
+  },
+  {
+   "default": "Single Photo",
+   "fieldname": "login_card_image_type",
+   "fieldtype": "Select",
+   "label": "Login Card Image Type",
+   "options": "Single Photo\nSlideshow"
+  },
+  {
+   "depends_on": "eval:doc.login_card_image_type=='Single Photo'",
+   "description": "Recommended size: 1000 \u00d7 1200 px (portrait) or larger. JPG/PNG, under 1 MB.",
+   "fieldname": "login_card_photo",
+   "fieldtype": "Attach Image",
+   "label": "Login Card Photo"
+  },
+  {
+   "depends_on": "eval:doc.login_card_image_type=='Slideshow'",
+   "description": "Add multiple images to rotate as a slideshow on the login card. Recommended size: 1000 \u00d7 1200 px (portrait) or larger, each under 1 MB.",
+   "fieldname": "login_card_slideshow",
+   "fieldtype": "Table",
+   "label": "Login Card Slideshow",
+   "options": "Slideshow Photos"
+  },
+  {
+   "fieldname": "login_background_section",
+   "fieldtype": "Section Break",
+   "label": "Login Page Background"
   },
   {
    "fieldname": "background_type",

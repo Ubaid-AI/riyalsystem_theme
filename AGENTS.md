@@ -18,7 +18,7 @@ workspaces, login page, colors, dark mode, fonts, and layout.
 - **Publisher:** Abdo Hamoud
 - **License:** MIT
 - **Installed on site:** `site1.local`
-- **Product display name in UI:** "Salasah ERP" (see `www/app.html` `<title>` and splash)
+- **Product display name in UI:** "Riyal System" (see `www/app.html` `<title>`)
 
 ### Relationship to `datavalue_theme_15`
 
@@ -384,6 +384,32 @@ sites/assets/riyalsystem_theme/dist/css/datavalue_theme.bundle.<HASH>.css
   the old hashed bundle). Run build + clear-cache + hard refresh.
 - **Editing the wrong app:** changes in `datavalue_theme_15` won't show on `site1.local`
   (which runs `riyalsystem_theme`).
+- **Desk icons turn into square boxes (FOUC/flicker):** caused by another app shipping a
+  global, unscoped `.fa,.fas { font-family:"Font Awesome 5 Free" !important }` in its
+  `app_include_css`. The theme uses Font Awesome 5 **Pro**, so forcing the (unloaded) Free
+  family blanks every `.fa/.fas` icon across the desk. Fix = scope such rules to the
+  offending app's own container. (Already fixed in `erp_saas` `admin_dashboard.css` /
+  `server_health.css`.)
+
+## Login page (website route `/login`)
+
+- Files: `www/login.py` (context), `www/login.html` (two-pane markup),
+  `templates/includes/login/login.js` (behaviour + card slideshow rotator),
+  `public/scss/dv-login.scss` → compiled to `public/css/dv-login.css`.
+- `dv-login.scss` is **standalone**, NOT part of the bundle. Compile it with:
+  `apps/frappe/node_modules/.bin/sass <scss> public/css/dv-login.css --style=compressed`
+  (it is served via `web_include_css` in `hooks.py`).
+- Page background (image/slideshow, full/min/transparent) is applied at runtime by
+  `datavalue_theme.web.min.js` via classes on `#page-login .page_content`. Keep that DOM
+  (`#page-login`, `.page_content`, `.for-login/.for-email-login/.for-signup/.for-forgot`,
+  `.login-content.page-card`, `.login-content-form`, `.login-content-bg`, form classes,
+  field IDs) intact or login breaks.
+- Login **card image** (right pane) is driven by Theme Settings: `login_card_image_type`
+  (Single Photo / Slideshow), `login_card_photo`, `login_card_slideshow` (child table
+  `Slideshow Photos`, `parentfield='login_card_slideshow'`). Default = bundled
+  `images/login-card-default.png`. Logo above the heading = `login_page_logo` or default
+  `images/riyal-logo-default.svg`. Theme color + font are injected per-request in the
+  `head_include` block of `login.html`.
 
 ---
 

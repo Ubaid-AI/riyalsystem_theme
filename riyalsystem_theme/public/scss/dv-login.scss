@@ -1,137 +1,24 @@
 $imp: !important;
-$my_color: #007BFF;
-$my_color_hover: #0065cd;
 
+/* Theme color is injected per-request in login.html (<style> in head_include),
+   so default here is just a fallback. */
 :root {
-  --primary: #007BFF;
+  --primary: #007bff;
+  --primary-hover: #0065cd;
 }
 
 a {
-  color: #007BFF;
+  color: var(--primary);
 
   &:hover {
-    color: #0065cd;
+    color: var(--primary-hover);
   }
 }
 
-#page-login {
-  .for-login, .for-forgot, .for-signup, .for-email-login {
-    padding: Max(10vh, 100px) 30px $imp;
-  }
-}
-
-#page-login .page-card {
-  max-width: 1024px !important;
-  display: flex;
-
-  .text-center.sign-up-message {
-    font-weight: 600;
-    font-size: 14px;
-    position: relative;
-    top: 15px;
-  }
-
-  .login-content-bg {
-    background: #f3f8fa;
-    width: 50%;
-    margin: -20px 20px -20px -20px;
-    border-radius: 10px 0px 0px 10px;
-    position: relative;
-
-    .app-logo {
-      max-height: 40px;
-      margin: 20px;
-    }
-
-    img.app-login-bg {
-      width: 90%;
-      margin: 50px auto;
-      display: block;
-    }
-
-    .login-copyrights {
-      position: absolute;
-      bottom: 20px;
-      font-weight: 600;
-      font-size: 13px;
-      left: 0px;
-      right: 0px;
-      text-align: center;
-    }
-  }
-
-  .login-content-form {
-    width: 50%;
-    padding: 50px 20px;
-
-    .btn-login, .btn-signup, .btn-forgot {
-      background: rgb(0, 123, 255);
-      background: linear-gradient(-90deg, rgba(0, 123, 255, 1) 0%, rgba(0, 101, 205, 1) 100%);
-      height: 50px !important;
-      border-radius: 25px !important;
-      font-size: 16px;
-    }
-
-    .forgot-password-message {
-      margin-top: 15px;
-    }
-
-    span.toggle-password.text-muted {
-      top: 14px !important;
-      right: 14px !important;
-      opacity: 0.7;
-      transition: all 0.2s ease-in-out;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-}
-
-.for-login .page-card form, .for-forgot .page-card form, .for-signup .page-card form, .for-email-login .page-card form {
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-.for-login .page-card, .for-forgot .page-card, .for-signup .page-card, .for-email-login .page-card {
-  max-width: 480px;
-  padding: 20px;
-  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.10);
-}
-
-.for-login .page-card-head img, .for-forgot .page-card-head img, .for-signup .page-card-head img, .for-email-login .page-card-head img {
-  max-height: 62px;
-  margin-bottom: 40px;
-}
-
-.form-label {
-  cursor: pointer;
-}
-
-#page-login .form-control {
-  background: #ffffff $imp;
-  border: 1px solid #D8D6DE $imp;
-  height: 50px $imp;
-  padding-left: 40px;
-  transition: all 0.2s ease-in-out;
-
-  &:focus.is-valid, &:focus {
-    box-shadow: 0 3px 10px 0 rgba(37, 143, 231, 0.25) $imp;
-    border-color: $my_color $imp;
-    padding-left: 43px;
-    outline: 0;
-  }
-}
-
-.for-login .page-card .page-card-body .forgot-password-message > *, .for-forgot .page-card .page-card-body .forgot-password-message > *, .for-signup .page-card .page-card-body .forgot-password-message > *, .for-email-login .page-card .page-card-body .forgot-password-message > * {
-  font-size: 14px;
-
-  &:hover {
-    color: $my_color;
-  }
-}
-
+/* =====================================================================
+   Full-screen page background (controlled by Theme Settings via
+   datavalue_theme.web.min.js -> classes on .page_content). Keep as-is.
+   ===================================================================== */
 #page-login {
   h2 {
     margin-top: 0;
@@ -139,28 +26,24 @@ a {
   }
 
   .page_content {
-    background-color: #f5f5f5;
+    background-color: #eef1f6;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
     position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 300;
-
-    .page-card {
-      position: relative;
-      z-index: 315;
-    }
+    overflow: auto;
 
     .login-page-slideshow-container {
       position: fixed;
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      bottom: 0px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       z-index: 310;
 
       .login-page-slideshow-item {
@@ -177,10 +60,10 @@ a {
       &:after {
         background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0.9) 100%) repeat scroll 0 0;
         position: absolute;
-        top: 0px;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         display: block;
         content: "";
         z-index: 312;
@@ -188,7 +71,7 @@ a {
     }
 
     &.full-background {
-      top: 0px;
+      top: 0;
     }
 
     &.min-background {
@@ -199,59 +82,418 @@ a {
       }
     }
 
+    /* transparent / glass card variant */
     &.widget-background-transparent {
-      .page-card .login-content-bg {
-        background: transparent;
-      }
-
       .page-card {
-        padding-top: 45px $imp;
-        padding-bottom: 45px $imp;
-        background-color: rgba(255, 255, 255, 0.75) $imp;
-        border: 2px solid rgba(255, 255, 255, 0.75) $imp;
-        box-shadow: 0px 2px 14px -6px #000 $imp;
-        color: #000000 $imp;
-        position: relative;
-        z-index: 315;
+        background-color: rgba(255, 255, 255, 0.82) $imp;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.6) $imp;
 
-        .form-control {
-          border: 1px solid #8d8d8d $imp;
-
-          &:focus {
-            border-color: var(--primary) $imp;
-          }
-        }
-
-        > a {
-          color: #000;
+        .login-content-bg {
+          background: transparent;
         }
       }
     }
   }
 }
 
-.for-email-login .page-card .page-card-body .field-icon, .for-forgot .page-card .page-card-body .field-icon, .for-login .page-card .page-card-body .field-icon, .for-signup .page-card .page-card-body .field-icon {
-  left: 14px;
-  top: 15px;
-}
+/* =====================================================================
+   Section wrappers (toggled by login.js as display:block/none).
+   Center the card with padding + margin auto (no flex, to avoid
+   clashing with jQuery .toggle()).
+   ===================================================================== */
+#page-login {
+  .for-login,
+  .for-email-login,
+  .for-forgot,
+  .for-signup,
+  .for-twofactor {
+    padding: Max(6vh, 48px) 24px;
+    position: relative;
+    z-index: 315;
+  }
 
-@media (max-width: 600px) {
-  .for-login, .for-forgot, .for-signup, .for-email-login {
-    margin: 0px;
-  }
-  .for-login .page-card-head, .for-forgot .page-card-head, .for-signup .page-card-head, .for-email-login .page-card-head {
-    margin-bottom: 20px;
-  }
-  #page-login {
-    .for-login, .for-forgot, .for-signup, .for-email-login {
-      padding: 30px $imp;
-    }
-  }
-  #page-login .page-card .login-content-bg {
+  /* Hidden until login.js toggles the active section (for-login is shown by JS). */
+  .for-email-login,
+  .for-forgot,
+  .for-signup,
+  .for-twofactor {
     display: none;
   }
-  #page-login .page-card .login-content-form {
+}
+
+/* =====================================================================
+   The login card (two panes: form left, image right)
+   ===================================================================== */
+#page-login .login-content.page-card {
+  position: relative;
+  z-index: 315;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 18px 60px -20px rgba(17, 43, 66, 0.35), 0 6px 18px -10px rgba(17, 43, 66, 0.2);
+  overflow: hidden;
+  min-height: 540px;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+
+  &.invalid-login {
+    animation: rst-login-shake 0.4s ease;
+  }
+}
+
+@keyframes rst-login-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-7px); }
+  75% { transform: translateX(7px); }
+}
+
+/* ----- Form pane (left) ----- */
+#page-login .login-content-form {
+  width: 50%;
+  flex: 1 1 50%;
+  padding: 48px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .login-brand {
+    margin-bottom: 22px;
+
+    .app-logo {
+      max-height: 44px;
+      max-width: 200px;
+      width: auto;
+      display: inline-block;
+    }
+  }
+
+  .page-card-head {
+    margin-bottom: 26px;
+
+    h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1f272e;
+      margin: 0 0 8px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #74808b;
+      margin: 0;
+    }
+  }
+
+  .page-card-body {
+    margin-bottom: 8px;
     width: 100%;
-    padding: 0px 10px 30px 10px;
+  }
+
+  /* Override frappe login.css max-width:320px on forms inside the card */
+  form.form-signin,
+  form.form-verify {
+    max-width: 100% $imp;
+    width: 100%;
+    margin: 0 $imp;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .email-field,
+  .password-field {
+    position: relative;
+  }
+
+  .field-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 0;
+    z-index: 2;
+  }
+
+  span.toggle-password {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 0;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .btn-login,
+  .btn-signup,
+  .btn-forgot {
+    background: var(--primary);
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-hover) 100%);
+    border: none;
+    color: #fff $imp;
+    height: 52px $imp;
+    min-height: 52px;
+    border-radius: 12px $imp;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 8px 20px -8px var(--primary);
+    transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px -8px var(--primary);
+      opacity: 0.96;
+    }
+  }
+
+  .forgot-password-message {
+    margin: -4px 0 18px;
+
+    a {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+  }
+
+  /* social login divider — text between two lines, no boxed background */
+  .login-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 24px 0 18px;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: #9aa4b2;
+    background: none $imp;
+    border: none;
+
+    &::before,
+    &::after {
+      content: "";
+      flex: 1 1 auto;
+      height: 1px;
+      background: #e1e5ec;
+      position: static;
+    }
+
+    span {
+      flex: 0 0 auto;
+      background: transparent $imp;
+      padding: 0;
+      position: static;
+      z-index: auto;
+      white-space: nowrap;
+    }
+  }
+
+  .btn-login-option {
+    height: 48px;
+    border-radius: 12px $imp;
+    border: 1px solid #e1e5ec $imp;
+    background: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    color: #38414b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+    img,
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      border-color: var(--primary) $imp;
+      box-shadow: 0 6px 16px -10px var(--primary);
+    }
+  }
+
+  .btn-login-email-cta {
+    background: var(--primary);
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-hover) 100%);
+    color: #fff $imp;
+    border: none $imp;
+    box-shadow: 0 8px 20px -8px var(--primary);
+
+    &:hover {
+      color: #fff $imp;
+    }
+  }
+
+  .sign-up-message {
+    margin-top: 22px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #74808b;
+
+    a {
+      font-weight: 700;
+      color: var(--primary);
+    }
+  }
+}
+
+/* ----- Image pane (right) — inset from card edge for a cleaner frame ----- */
+#page-login .login-content-bg {
+  width: 50%;
+  flex: 1 1 50%;
+  position: relative;
+  background: #0e1f44;
+  overflow: hidden;
+  margin: 14px 14px 14px 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+
+  .login-card-media {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .login-card-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+
+    &.active {
+      opacity: 1;
+    }
+  }
+
+  .login-copyrights {
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+    z-index: 2;
+
+    a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  }
+}
+
+/* ----- Two-factor / verification step ----- */
+#page-login .for-twofactor #otp_div {
+    color: #74808b;
+    font-size: 13px;
+    margin-bottom: 12px;
+
+  img {
+    max-width: 180px;
+    display: block;
+    margin: 6px auto 12px;
+  }
+}
+
+#page-login .for-twofactor #login_token {
+    padding-left: 16px;
+    text-align: center;
+  letter-spacing: 3px;
+  font-weight: 600;
+}
+
+/* =====================================================================
+   Inputs
+   ===================================================================== */
+#page-login .form-control {
+  background: #f7f9fc $imp;
+  border: 1px solid #e1e5ec $imp;
+  height: 52px $imp;
+  min-height: 52px;
+  border-radius: 12px $imp;
+  padding: 0 16px 0 44px $imp;
+  font-size: 15px;
+  line-height: 1.4;
+  width: 100%;
+  transition: all 0.18s ease-in-out;
+
+  &:focus,
+  &:focus.is-valid {
+    background: #fff $imp;
+    box-shadow: 0 0 0 4px rgba(36, 143, 231, 0.12) $imp;
+    border-color: var(--primary) $imp;
+    outline: 0;
+  }
+}
+
+#page-login .password-field .form-control {
+  padding-right: 44px $imp;
+}
+
+#page-login .page-card-body.invalid .form-control {
+  border-color: #e24c4c $imp;
+}
+
+.form-label {
+  cursor: pointer;
+}
+
+/* =====================================================================
+   Responsive
+   ===================================================================== */
+@media (max-width: 860px) {
+  #page-login .login-content.page-card {
+    max-width: 460px;
+    min-height: 0;
+    flex-direction: column;
+  }
+
+  #page-login .login-content-bg {
+    display: none;
+  }
+
+  #page-login .login-content-form {
+    width: 100%;
+    flex: 1 1 auto;
+    padding: 36px 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  #page-login {
+    .for-login,
+    .for-email-login,
+    .for-forgot,
+    .for-signup {
+      padding: 24px 14px;
+    }
+  }
+
+  #page-login .login-content-form {
+    padding: 28px 20px;
+
+    .page-card-head h2 {
+      font-size: 24px;
+    }
   }
 }

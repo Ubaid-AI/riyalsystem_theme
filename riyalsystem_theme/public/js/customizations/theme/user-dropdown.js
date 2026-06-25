@@ -17,10 +17,12 @@
 		}
 
 		const $about = $(
-			'<a class="dropdown-item dv-about-us" target="_blank" rel="noopener noreferrer"></a>'
-		)
-			.attr('href', ABOUT_URL)
-			.text(label('About Us'));
+			'<a class="dropdown-item dv-about-us" target="_blank" rel="noopener noreferrer">' +
+				'<i class="far fa-circle-info dv-about-us-icon"></i>' +
+				'<span class="dv-about-us-label"></span>' +
+			'</a>'
+		).attr('href', ABOUT_URL);
+		$about.find('.dv-about-us-label').text(label('About Us'));
 
 		const $logout = $menu
 			.find('.dropdown-item')

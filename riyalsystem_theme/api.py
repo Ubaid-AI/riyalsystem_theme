@@ -83,8 +83,16 @@ def get_theme_settings():
 
     if (("background_type" in settings_list) and settings_list['background_type'] == 'Slideshow'):
         slideshow_photos = frappe.db.sql("""
-                               SELECT `photo` FROM `tabSlideshow Photos` WHERE `parent` = 'Theme Settings';
+                               SELECT `photo` FROM `tabSlideshow Photos`
+                               WHERE `parent` = 'Theme Settings' AND `parentfield` = 'slideshow'
+                               ORDER BY `idx`;
             """, as_dict=True, debug=False)
+
+    login_card_photos = frappe.db.sql("""
+                           SELECT `photo` FROM `tabSlideshow Photos`
+                           WHERE `parent` = 'Theme Settings' AND `parentfield` = 'login_card_slideshow'
+                           ORDER BY `idx`;
+        """, as_dict=True, debug=False)
 
     def _check(field):
         return cint(settings_list.get(field))
@@ -96,6 +104,10 @@ def get_theme_settings():
         'full_page_background': settings_list.get('full_page_background') or '',
         'transparent_background': settings_list.get('transparent_background') or '',
         'slideshow_photos': slideshow_photos,
+        'login_page_logo': settings_list.get('login_page_logo') or '',
+        'login_card_image_type': settings_list.get('login_card_image_type') or 'Single Photo',
+        'login_card_photo': settings_list.get('login_card_photo') or '',
+        'login_card_photos': login_card_photos,
         'dark_view': _check('dark_view'),
         'theme_color': settings_list.get('theme_color') or '',
         'open_workspace_on_mobile_menu': _check('open_workspace_on_mobile_menu'),

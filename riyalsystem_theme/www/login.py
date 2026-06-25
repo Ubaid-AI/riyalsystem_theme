@@ -38,8 +38,46 @@ def get_context(context):
     context["title"] = "Login"
     context["provider_logins"] = []
     context["disable_signup"] = frappe.utils.cint(frappe.db.get_single_value("Website Settings", "disable_signup"))
-    context["logo"] = (frappe.db.get_single_value('Theme Settings', 'login_page_logo') or '/assets/riyalsystem_theme/images/datavalue-new-logo.svg')
+    context["logo"] = (frappe.db.get_single_value('Theme Settings', 'login_page_logo') or '/assets/riyalsystem_theme/images/riyal-logo-default.svg')
     context["app_name"] = (frappe.db.get_single_value('Website Settings', 'app_name') or frappe.get_system_settings("app_name") or _("Frappe"))
+
+    # --- theme color + font for the login page (mirror the desk theme) ---
+    theme_color_raw = frappe.db.get_single_value('Theme Settings', 'theme_color') or 'Blue'
+    theme_color_key = theme_color_raw.replace(' ', '-').lower()
+    theme_palette = {
+        'blue': ('#007BFF', '#0065cd'),
+        'green': ('#43a047', '#2a7e2e'),
+        'red': ('#e53935', '#be2724'),
+        'orange': ('#fb8c00', '#d07706'),
+        'yellow': ('#ffca28', '#deae1b'),
+        'pink': ('#ec407a', '#b92a5a'),
+        'violet': ('#ab47bc', '#773183'),
+        'dark-gray': ('#38414b', '#24272e'),
+    }
+    primary, primary_hover = theme_palette.get(theme_color_key, theme_palette['blue'])
+    context["primary_color"] = primary
+    context["primary_hover"] = primary_hover
+    context["font_family"] = frappe.db.get_single_value('Theme Settings', 'font_family') or 'Cairo'
+
+    # --- login card image(s): single photo, slideshow, or bundled default ---
+    default_card_image = '/assets/riyalsystem_theme/images/login-card-default.png'
+    card_type = frappe.db.get_single_value('Theme Settings', 'login_card_image_type') or 'Single Photo'
+    card_images = []
+    if card_type == 'Slideshow':
+        rows = frappe.get_all(
+            'Slideshow Photos',
+            filters={'parent': 'Theme Settings', 'parentfield': 'login_card_slideshow'},
+            fields=['photo'],
+            order_by='idx asc',
+        )
+        card_images = [r.photo for r in rows if r.get('photo')]
+    else:
+        single = frappe.db.get_single_value('Theme Settings', 'login_card_photo')
+        if single:
+            card_images = [single]
+    if not card_images:
+        card_images = [default_card_image]
+    context["login_card_images"] = card_images
     providers = [i.name for i in frappe.get_all("Social Login Key", filters={"enable_social_login": 1}, order_by="name")]
     for provider in providers:
         client_id, base_url = frappe.get_value("Social Login Key", provider, ["client_id", "base_url"])

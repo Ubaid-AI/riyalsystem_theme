@@ -104,6 +104,16 @@
             border: none;
             min-width: 224px;
             margin-top: -3px;
+
+            .dropdown-item {
+              > i {
+                width: 16px;
+                margin-inline-end: 10px;
+                text-align: center;
+                font-size: 15px;
+                opacity: 0.85;
+              }
+            }
           }
         }
 
