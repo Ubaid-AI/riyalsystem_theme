@@ -1,0 +1,178 @@
+$imp: !important;
+
+/* Shared informative / error website pages (message, 404, error) */
+
+#page-message,
+#page-404,
+#page-error {
+  .page_content {
+    background-color: #eef1f6;
+    min-height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: Max(2vh, 20px) 20px;
+  }
+
+  main.container {
+    max-width: 100% $imp;
+    width: 100%;
+    margin: 0 $imp;
+    padding: 0 $imp;
+  }
+
+  .page-header-wrapper,
+  .page-breadcrumbs,
+  .page-footer {
+    display: none $imp;
+  }
+}
+
+.rst-web-page {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.rst-web-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 18px 60px -20px rgba(17, 43, 66, 0.28), 0 6px 18px -10px rgba(17, 43, 66, 0.16);
+  padding: 36px 32px 32px;
+  text-align: center;
+
+  .rst-brand {
+    margin-bottom: 18px;
+
+    .app-logo {
+      max-height: 38px;
+      max-width: 180px;
+      width: auto;
+    }
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f272e;
+    margin: 0 0 10px;
+  }
+
+  p {
+    font-size: 14px;
+    color: #74808b;
+    margin: 0 0 22px;
+    line-height: 1.55;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-hover) 100%);
+    border: none;
+    color: #fff $imp;
+    height: 48px;
+    min-height: 48px;
+    border-radius: 11px $imp;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 0 24px;
+    box-shadow: 0 8px 20px -8px var(--primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
+
+    &:hover {
+      color: #fff $imp;
+      opacity: 0.96;
+    }
+  }
+}
+
+.rst-message-head {
+  margin-bottom: 12px;
+
+  &.rst-indicator-red h2 {
+    color: #c62828;
+  }
+
+  &.rst-indicator-green h2 {
+    color: #2e7d32;
+  }
+
+  &.rst-indicator-orange h2 {
+    color: #ef6c00;
+  }
+
+  &.rst-indicator-blue h2 {
+    color: var(--primary);
+  }
+}
+
+.rst-status-code {
+  margin-top: 16px;
+  font-size: 12px;
+  color: #9aa4b2;
+  text-align: center;
+}
+
+/* 404 page */
+#page-404 .rst-web-page {
+  max-width: 560px;
+}
+
+.rst-404-illustration {
+  width: min(320px, 80%);
+  height: auto;
+  margin: 0 auto 18px;
+  display: block;
+}
+
+/* Error page (server exception) */
+#page-error {
+  .rst-web-page {
+    max-width: 640px;
+    text-align: left;
+  }
+
+  .rst-error-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .error-content {
+    border-radius: 12px;
+    background: #f7f9fc;
+    border: 1px solid #e1e5ec;
+    margin-top: 12px;
+    padding: 12px;
+    max-height: 280px;
+    overflow: auto;
+
+    pre {
+      margin: 0;
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+  }
+
+  .view-error {
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rst-web-card {
+    padding: 28px 22px 24px;
+
+    h2 {
+      font-size: 21px;
+    }
+  }
+
+  .rst-404-illustration {
+    width: min(260px, 88%);
+  }
+}

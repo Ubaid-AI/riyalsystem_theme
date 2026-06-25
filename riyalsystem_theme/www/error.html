@@ -1,0 +1,62 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ error_title or _("Error") }}{% endblock %}
+
+{% block head_include %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{ (font_family or 'Cairo')|replace(' ', '+') }}:300,400,500,600,700,800,900&display=swap">
+<link rel="stylesheet" href="/assets/frappe/css/hljs-night-owl.css">
+<style>
+	#page-error {
+		--primary: {{ primary_color or '#007BFF' }};
+		--primary-hover: {{ primary_hover or '#0065cd' }};
+	}
+	#page-error,
+	#page-error .rst-web-card,
+	#page-error .btn {
+		font-family: "{{ font_family or 'Cairo' }}", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<section class="rst-web-page rst-error-page">
+	<div class="rst-web-card page-card">
+		<div class="rst-brand">
+			<img class="app-logo" src="{{ logo }}" alt="{{ app_name }}">
+		</div>
+		<div class="rst-message-head rst-indicator-red">
+			<h2>{{ error_title }}</h2>
+		</div>
+		<p>{{ error_message }}</p>
+		<div class="rst-error-actions">
+			<a href="/" class="btn btn-primary btn-sm">{{ _("Home") }}</a>
+			<button class="btn btn-xs btn-secondary text-muted small view-error">{{ _("Show Error") if not dev_server else _("Hide Error") }}</button>
+		</div>
+		<p class="rst-status-code">{{ _("Error Code: {0}").format(http_status_code) }}</p>
+		<div class="error-content {{ 'hidden' if not dev_server else '' }}">
+			<pre><code>{{ error }}</code></pre>
+		</div>
+	</div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script>
+	frappe.ready(function () {
+		let toggle_button = $(".view-error");
+		let error_log = $(".error-content");
+
+		toggle_button.on("click", function () {
+			if (error_log.hasClass("hidden")) {
+				toggle_button.html(`{{ _("Hide Error") }}`);
+				error_log.removeClass("hidden");
+			} else {
+				toggle_button.html(`{{ _("Show Error") }}`);
+				error_log.addClass("hidden");
+			}
+		});
+	});
+</script>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

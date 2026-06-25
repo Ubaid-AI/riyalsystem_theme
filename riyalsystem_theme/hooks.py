@@ -42,7 +42,8 @@ email_brand_image = "assets/riyalsystem_theme/images/logo-v.png"
 web_include_css = [
     "assets/riyalsystem_theme/plugins/fontawesome/all.min.css",
     "assets/riyalsystem_theme/css/login.css",
-    "assets/riyalsystem_theme/css/dv-login.css?ver=" + app_version
+    "assets/riyalsystem_theme/css/dv-login.css?ver=" + app_version,
+    "assets/riyalsystem_theme/css/dv-web-pages.css?ver=" + app_version
 ]
 web_include_js = [
     "/assets/riyalsystem_theme/js/datavalue_theme.web.min.js?ver=" + app_version,

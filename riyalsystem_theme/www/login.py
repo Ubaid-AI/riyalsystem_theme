@@ -14,6 +14,7 @@ from frappe.utils.password import get_decrypted_password
 from frappe.utils.html_utils import get_icon_html
 from frappe.integrations.oauth2_logins import decoder_compat
 from frappe.website.utils import get_home_page
+from riyalsystem_theme.www.theme_context import get_default_login_card_images
 
 no_cache = True
 
@@ -59,8 +60,7 @@ def get_context(context):
     context["primary_hover"] = primary_hover
     context["font_family"] = frappe.db.get_single_value('Theme Settings', 'font_family') or 'Cairo'
 
-    # --- login card image(s): single photo, slideshow, or bundled default ---
-    default_card_image = '/assets/riyalsystem_theme/images/login-card-default.png'
+    # --- login card image(s): single photo, slideshow, or bundled default slideshow ---
     card_type = frappe.db.get_single_value('Theme Settings', 'login_card_image_type') or 'Single Photo'
     card_images = []
     if card_type == 'Slideshow':
@@ -76,7 +76,7 @@ def get_context(context):
         if single:
             card_images = [single]
     if not card_images:
-        card_images = [default_card_image]
+        card_images = get_default_login_card_images()
     context["login_card_images"] = card_images
     providers = [i.name for i in frappe.get_all("Social Login Key", filters={"enable_social_login": 1}, order_by="name")]
     for provider in providers:
