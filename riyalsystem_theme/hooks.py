@@ -45,7 +45,8 @@ web_include_css = [
     "assets/riyalsystem_theme/css/dv-login.css?ver=" + app_version
 ]
 web_include_js = [
-    "/assets/riyalsystem_theme/js/datavalue_theme.web.min.js?ver=" + app_version
+    "/assets/riyalsystem_theme/js/datavalue_theme.web.min.js?ver=" + app_version,
+    "/assets/riyalsystem_theme/js/customizations/theme/branding.js?ver=" + app_version
 ]
 
 # include js, css files in header of desk.html

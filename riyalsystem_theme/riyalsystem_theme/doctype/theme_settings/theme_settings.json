@@ -114,13 +114,13 @@
    "default": "0",
    "fieldname": "show_icon_label",
    "fieldtype": "Check",
-   "label": "Show Labels in Collapsed Mode"
+   "label": "Show Icon Label"
   },
   {
    "default": "0",
    "fieldname": "hide_icon_tooltip",
    "fieldtype": "Check",
-   "label": "Hide Tooltips in Collapsed Mode"
+   "label": "Hide Icon Tooltip"
   },
   {
    "fieldname": "loading_image",
@@ -156,6 +156,7 @@
    "default": "0",
    "fieldname": "show_help_icon",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Show Help Icon"
   },
   {
@@ -263,8 +264,8 @@
  ],
  "issingle": 1,
  "links": [],
- "modified": "2024-05-30 15:53:15.474962",
- "modified_by": "Administrator",
+ "modified": "2026-06-25 21:43:31.933177",
+ "modified_by": "ubaidkhanzada8@gmail.com",
  "module": "Riyalsystem Theme",
  "name": "Theme Settings",
  "owner": "Administrator",
@@ -280,6 +281,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

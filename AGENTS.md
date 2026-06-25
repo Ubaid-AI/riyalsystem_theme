@@ -97,6 +97,7 @@ riyalsystem_theme/
     │   │       ├── theme/settings.js        ← theme settings application helpers
     │   │       ├── theme/theme-bools.js     ← boolean/normalization helpers (frappe.riyalsystem_theme.*)
     │   │       ├── theme/theme-modal.js     ← theme settings modal
+    │   │       ├── theme/branding.js        ← rebrand "ERPNext"/"Frappe" → "Riyal System" + Powered-by link (desk + web)
     │   │       ├── theme/user-dropdown.js
     │   │       ├── theme/default-route.js   ← default workspace/dashboard routing
     │   │       ├── workspace/edit-modules.js← "Edit Modules" Vue dialog logic (sequence/title/icon/parent/hide)
