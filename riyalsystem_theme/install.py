@@ -26,7 +26,11 @@ def _apply_patches(source: str) -> None:
 def _apply_saudi_riyal_symbol(source: str) -> None:
 	try:
 		result = apply_saudi_riyal_symbol()
-		if result["currency_updated"] or result["print_style_updated"]:
+		if (
+			result["currency_updated"]
+			or result["print_style_updated"]
+			or result["print_settings_updated"]
+		):
 			frappe.logger("riyalsystem_theme").info(
 				f"Saudi Riyal symbol patch applied via {source}: {result}"
 			)

@@ -25,7 +25,12 @@ def apply_saudi_riyal_symbol(force: bool = False) -> dict:
 
 	Returns a summary dict for logging / bench output.
 	"""
-	result = {"currency_updated": False, "print_style_updated": False, "skipped": []}
+	result = {
+		"currency_updated": False,
+		"print_style_updated": False,
+		"print_settings_updated": False,
+		"skipped": [],
+	}
 
 	if frappe.db.exists("Currency", CURRENCY_NAME):
 		current_symbol = frappe.db.get_value("Currency", CURRENCY_NAME, "symbol")
@@ -50,10 +55,17 @@ def apply_saudi_riyal_symbol(force: bool = False) -> dict:
 	else:
 		result["skipped"].append(f"Print Style {PRINT_STYLE_NAME} not found")
 
-	if result["currency_updated"] or result["print_style_updated"]:
+	_update_print_settings_print_style(force=force, result=result)
+
+	if (
+		result["currency_updated"]
+		or result["print_style_updated"]
+		or result["print_settings_updated"]
+	):
 		frappe.db.commit()
 		frappe.clear_cache(doctype="Currency")
 		frappe.clear_cache(doctype="Print Style")
+		frappe.clear_cache(doctype="Print Settings")
 
 	return result
 
@@ -68,3 +80,22 @@ def _update_print_style_css(css: str) -> None:
 		doc.save(ignore_permissions=True)
 	finally:
 		frappe.flags.in_import = False
+
+
+def _update_print_settings_print_style(*, force: bool, result: dict) -> None:
+	"""Ensure Print Settings uses the Modern print style for SAR symbol rendering."""
+	if not frappe.db.exists("Print Style", PRINT_STYLE_NAME):
+		result["skipped"].append(f"Print Settings not updated; {PRINT_STYLE_NAME} missing")
+		return
+
+	current_style = frappe.db.get_single_value("Print Settings", "print_style")
+	if not force and current_style == PRINT_STYLE_NAME:
+		return
+
+	frappe.db.set_single_value(
+		"Print Settings",
+		"print_style",
+		PRINT_STYLE_NAME,
+		update_modified=False,
+	)
+	result["print_settings_updated"] = True
